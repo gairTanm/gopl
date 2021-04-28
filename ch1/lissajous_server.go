@@ -1,6 +1,12 @@
 package main
 
+/*
+go run lissajous_server.go
+localhost:8000/?cycles=<number of cycles>
+*/
+
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"image/gif"
@@ -9,6 +15,7 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
+	"strconv"
 )
 
 var paletteS = []color.Color{color.White, color.Black}
@@ -23,12 +30,23 @@ func main() {
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
+//ex 1.12 custom cycles
 func lissajousHandler(w http.ResponseWriter, r *http.Request) {
-	lissajousS(w)
+	q := r.URL.Query()
+	if len(q) > 0 {
+		cycles, err := strconv.Atoi(q["cycles"][0])
+		if err != nil {
+			fmt.Println(err)
+		}
+		cycle := float64(cycles)
+		lissajousS(w, cycle)
+
+	}
+	lissajousS(w, 5)
 }
-func lissajousS(out io.Writer) {
-	const (
-		cycles  = 5
+func lissajousS(out io.Writer, cycle float64) {
+	var (
+		cycles  = cycle
 		res     = 0.001
 		size    = 100
 		nframes = 64
@@ -43,7 +61,7 @@ func lissajousS(out io.Writer) {
 		for t := 0.0; t < cycles*2*math.Pi; t += res {
 			x := math.Sin(t)
 			y := math.Sin(t*freq + phase)
-			img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5), blackIndexS)
+			img.SetColorIndex(size+int(x*float64(size)+0.5), size+int(y*float64(size)+0.5), blackIndexS)
 		}
 		phase += 0.1
 		anim.Delay = append(anim.Delay, delay)
