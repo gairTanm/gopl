@@ -11,7 +11,7 @@ func cfTemp() {
 	for _, arg := range os.Args[1:] {
 		t, err := strconv.ParseFloat(arg, 64)
 		if err != nil {
-			fmt.Println(err)
+			continue
 		}
 		f := tempconv.Fahrenheit(t)
 		k := tempconv.Kelvin(t)
