@@ -16,6 +16,8 @@ func Conversion() {
 		cfTemp()
 	case "len":
 		cfLen()
+	case "weight":
+		cfWeight()
 	default:
 		fmt.Println("wip")
 	}
