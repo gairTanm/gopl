@@ -1,4 +1,4 @@
-package main
+package cf
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func main() {
+func cfTemp() {
 	for _, arg := range os.Args[1:] {
 		t, err := strconv.ParseFloat(arg, 64)
 		if err != nil {
