@@ -2,7 +2,7 @@ package cf
 
 import (
 	"fmt"
-	"gopl/ch2/lenconv"
+	"gopl/ch2/cf/lenconv"
 	"os"
 	"strconv"
 )
