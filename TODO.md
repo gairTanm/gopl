@@ -1,0 +1,2 @@
+- [ ]  Benchmark various `popcount` techniques
+- [ ] Benchmark chapter 1's `string` methods
