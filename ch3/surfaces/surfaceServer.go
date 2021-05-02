@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gopl/ch3/surface"
+	"gopl/ch3/surfaces/surface"
 	"log"
 	"net/http"
 	"strconv"
