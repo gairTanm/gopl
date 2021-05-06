@@ -7,8 +7,8 @@ func reverse(s []string) {
 }
 
 func SinglePassRotate(s []string, r int) []string {
-	reverse(s[:r])
-	reverse(s[r:])
-	reverse(s)
-	return s
+	r %= len(s)
+	temp := append(s[r:], s[:r]...)
+	copy(s, temp)
+	return s 
 }
