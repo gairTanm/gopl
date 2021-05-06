@@ -1,4 +1,4 @@
-package main
+package funcs
 
 import (
 	"crypto/sha256"
@@ -12,7 +12,7 @@ var choice = flag.Int("c", 256, "use 384 or 512 for SHA384 or SHA512 respectivel
 
 //usage go run cryptCli.go -c <flag value> <some string>
 
-func main() {
+func CliHash() {
 	flag.Parse()
 	b := *choice
 	fmt.Println("Choice:", b)
