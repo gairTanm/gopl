@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-	s := []string{"lorem", "ipsum", "ipsum", "ipsum", "takeshi"}
-	s = funcs.InPlaceDup(s)
-	fmt.Println(s)
+	freq := funcs.WordFreq()	
+	fmt.Println(freq)
 }
