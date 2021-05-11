@@ -9,11 +9,14 @@ import (
 func main() {
 	var vals = []float64{1, 2, 30, -29, 201}
 	min, err := variadicMin(vals...)
-	if err != nil {
-		fmt.Println(err)
-	}
+	must(err)
 	fmt.Println("Minimum:", min)
 	min, err = variadicMin()
+	must(err)
+	fmt.Println("Minimum:", min)
+}
+
+func must(err error) {
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
