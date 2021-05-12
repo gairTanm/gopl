@@ -24,10 +24,50 @@ func (s *IntSet) Add(x int) {
 	s.words[word] |= 1 << bit
 }
 
+//add a bunch of values to the set
 func (s *IntSet) AddAll(values ...int) {
 	for _, value := range values {
 		s.Add(value)
 	}
+}
+
+func popCount(x uint64) int {
+	count := 0
+	for x != 0 {
+		count++
+		x &= (x - 1)
+	}
+	return count
+}
+
+//length of the set
+func (s *IntSet) Len() int {
+	count := 0
+	for _, word := range s.words {
+		count += popCount(word)
+	}
+	return count
+}
+
+//clear a bit set
+func (s *IntSet) Clear() {
+	for idx := range s.words {
+		s.words[idx] = 0
+	}
+}
+
+//remove a specific integer from the set
+func (s *IntSet) Remove(x int) {
+	word, bit := x/64, x%64
+	s.words[word] &^= 1 << bit
+}
+
+//return a copy of the set
+func (s *IntSet) Copy() *IntSet {
+	c := &IntSet{}
+	c.words = make([]uint64, len(s.words))
+	copy(c.words, s.words)
+	return c
 }
 
 //take a union of two sets
