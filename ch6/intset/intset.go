@@ -24,6 +24,12 @@ func (s *IntSet) Add(x int) {
 	s.words[word] |= 1 << bit
 }
 
+func (s *IntSet) AddAll(values ...int) {
+	for _, value := range values {
+		s.Add(value)
+	}
+}
+
 //take a union of two sets
 func (s *IntSet) UnionWith(t *IntSet) {
 	for i, tword := range t.words {
