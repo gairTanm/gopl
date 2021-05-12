@@ -5,19 +5,21 @@ import (
 	"fmt"
 )
 
+var wordSize = 32 << (^uint(0) >> 63)
+
 //type declaration
 type IntSet struct {
-	words []uint64
+	words []uint
 }
 
 func (s *IntSet) Has(x int) bool {
-	word, bit := x/64, x%64
+	word, bit := x/wordSize, x%wordSize
 	return word < len(s.words) && s.words[word]&(1<<bit) != 0
 }
 
 //add an integer to the set
 func (s *IntSet) Add(x int) {
-	word, bit := x/64, x%64
+	word, bit := x/wordSize, x%wordSize
 	for word >= len(s.words) {
 		s.words = append(s.words, 0)
 	}
@@ -31,7 +33,7 @@ func (s *IntSet) AddAll(values ...int) {
 	}
 }
 
-func popCount(x uint64) int {
+func popCount(x uint) int {
 	count := 0
 	for x != 0 {
 		count++
@@ -58,14 +60,14 @@ func (s *IntSet) Clear() {
 
 //remove a specific integer from the set
 func (s *IntSet) Remove(x int) {
-	word, bit := x/64, x%64
+	word, bit := x/wordSize, x%wordSize
 	s.words[word] &^= 1 << bit
 }
 
 //return a copy of the set
 func (s *IntSet) Copy() *IntSet {
 	c := &IntSet{}
-	c.words = make([]uint64, len(s.words))
+	c.words = make([]uint, len(s.words))
 	copy(c.words, s.words)
 	return c
 }
@@ -123,12 +125,12 @@ func (s IntSet) String() string {
 		if word == 0 {
 			continue
 		}
-		for j := 0; j < 64; j++ {
+		for j := 0; j < wordSize; j++ {
 			if word&(1<<j) != 0 {
 				if buf.Len() > len("{") {
 					buf.WriteByte(' ')
 				}
-				fmt.Fprintf(&buf, "%d", 64*idx+j)
+				fmt.Fprintf(&buf, "%d", wordSize*idx+j)
 			}
 		}
 	}
@@ -141,9 +143,9 @@ func (s IntSet) String() string {
 func (s *IntSet) Elems() []int {
 	elems := make([]int, 0)
 	for idx, word := range s.words {
-		for j := 0; j < 64; j++ {
+		for j := 0; j < wordSize; j++ {
 			if word&(1<<j) != 0 {
-				elems = append(elems, idx*64+j)
+				elems = append(elems, wordSize*idx+j)
 			}
 		}
 	}
