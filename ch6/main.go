@@ -16,6 +16,16 @@ func main() {
 		{3, 3},
 		{4, 4},
 	}
+	var scale float64 = 2.0
 	fmt.Printf("%s\nLength of path: %.5f\n", perim, perim.Distance())
-	fmt.Println("The distance between", p, "and", q, "is", p.Distance(q))
+	fmt.Println("The distance between", p, "and", q, "is", p.Distance(&q))
+	p.Scale(scale)
+	fmt.Println("After scaling by", scale, ", p is:", p)
+	scalePointBy := p.Scale
+	scalePointBy(scale)
+	fmt.Println(p)
+	scalePointBy(scale)
+	fmt.Println(p)
+	scalePointBy(scale)
+	fmt.Println(p)
 }
